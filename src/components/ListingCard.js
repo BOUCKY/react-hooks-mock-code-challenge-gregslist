@@ -16,8 +16,10 @@ function ListingCard({image, description, location, deleteListing, listID}) {
   }
 
   // create a function to handle the deleteListing function. We need to make a new function because onClick needs a callback function, not an invoked function. (deleteListing(listID))
-  // pass in listID as a parameter to the deleteListing function so that we delete the listing we click on.
   const handleDelete = () => {
+    // by using a fetch request with the / after the link address followed by the listID (the thing we're trying to delete), along with the DELETE method, we get persistance.
+    fetch(`http://localhost:6001/listings/${listID}`, {method : 'DELETE'})
+    // pass in listID as a parameter to the deleteListing function so that we delete the listing we click on.
     deleteListing(listID)
   }
 
