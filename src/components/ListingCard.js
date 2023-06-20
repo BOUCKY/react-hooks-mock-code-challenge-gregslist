@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 
+// **IMPORTANT NOTES AT BOTTOM OF PAGE**
+
 // We pass the image, description and location props in from the ListingsContainer so the ListingCard has access to the data.
-function ListingCard({image, description, location}) {
+function ListingCard({image, description, location, deleteListing, listID}) {
 
   // use useState to toggle the favorite button
   // variable = favorite, function = setFavorite
@@ -11,6 +13,12 @@ function ListingCard({image, description, location}) {
   // function toggles the state of favorite.
   const handleFavorite = () => {
     setFavorite(!favorite)
+  }
+
+  // create a function to handle the deleteListing function. We need to make a new function because onClick needs a callback function, not an invoked function. (deleteListing(listID))
+  // pass in listID as a parameter to the deleteListing function so that we delete the listing we click on.
+  const handleDelete = () => {
+    deleteListing(listID)
   }
 
   return (
@@ -33,7 +41,8 @@ function ListingCard({image, description, location}) {
         <strong>{description}</strong>
         {/* Passing in description prop as the <span> location value */}
         <span> · {location}</span>
-        <button className="emoji-button delete">🗑</button>
+        {/* Pass in the handleDelete function as the result of an onClick event */}
+        <button className="emoji-button delete" onClick={handleDelete}>🗑</button>
       </div>
     </li>
   );
