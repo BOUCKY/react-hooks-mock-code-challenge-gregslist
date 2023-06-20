@@ -1,7 +1,7 @@
 import React,{useState, useEffect} from "react";
 import ListingCard from "./ListingCard";
 
-function ListingsContainer() {
+function ListingsContainer({search}) {
 
   const [listings, setListings] = useState([])
 
@@ -24,8 +24,19 @@ function ListingsContainer() {
     // filter through the currentListings, define a callback function with a parameter of 'listing'. If the listing ID is NOT equal to the ID of the listing we are trying to delete, include it in the new array. If the listing ID DOES match the ID of the listing we're trying to delete, don't include it in the new array
   }
 
+
+  const filterSearchedListing = listings.filter((listing) => {
+    // make the description and search all lowercase so that the search is NOT case sensitive
+    const lowerCaseDescription = listing.description.toLowerCase()
+    const lowerCaseSearch = search.toLowerCase()
+    // if the what was searched is in any of the descriptions, return the listing(s) with the corrolating description
+    return (lowerCaseDescription.includes(lowerCaseSearch))
+    // .includes() performs a CASE SENSITIVE search to see if one string may be found in another string. Returns either true or false
+  })
+
+
   // map through the data, give each ListingCard a value for key, image, description, and location based on each object in the data.
-  const renderListings = listings.map((dataObject) => 
+  const renderListings = filterSearchedListing.map((dataObject) => 
     <ListingCard
     // passing these values as props. Left side of = is the prop. the right side of the = is the value of said prop.
     key={dataObject.id}
@@ -37,8 +48,6 @@ function ListingsContainer() {
     deleteListing={deleteListing}
     />
   )
-
-
 
   return (
     <main>
